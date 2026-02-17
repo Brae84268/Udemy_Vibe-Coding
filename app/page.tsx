@@ -2,9 +2,10 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { ProjectDialog } from "@/app/components/project-dialog";
 import { ApiLabSection } from "@/app/components/api-lab-section";
-import { developerProfile, projects } from "@/lib/portfolio-data";
+import { getDeveloperData } from "@/lib/fetch-developer-data";
 
-export default function Home() {
+export default async function Home() {
+  const { developerProfile, projects } = await getDeveloperData();
   const { name, shortBio, bio, contact } = developerProfile;
   return (
     <>

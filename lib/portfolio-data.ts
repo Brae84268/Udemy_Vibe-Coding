@@ -4,7 +4,7 @@
  */
 
 export type ProjectItem = {
-  id: number;
+  id: number | string;
   title: string;
   description: string;
   detailDescription?: string;

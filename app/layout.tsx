@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { developerProfile } from "@/lib/portfolio-data";
+import { getDeveloperData } from "@/lib/fetch-developer-data";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,11 +15,14 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: `${developerProfile.name} | 개발자 포트폴리오`,
-  description:
-    "개발 결과물을 소개하는 포트폴리오 웹사이트입니다. API: /api/developer",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const { developerProfile } = await getDeveloperData();
+  return {
+    title: `${developerProfile.name} | 개발자 포트폴리오`,
+    description:
+      "개발 결과물을 소개하는 포트폴리오 웹사이트입니다. API: /api/developer",
+  };
+}
 
 const navLinks = [
   { href: "#hero", label: "홈" },
@@ -29,11 +32,12 @@ const navLinks = [
   { href: "#contact", label: "연락처" },
 ];
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { developerProfile } = await getDeveloperData();
   return (
     <html lang="ko" suppressHydrationWarning>
       <head>
