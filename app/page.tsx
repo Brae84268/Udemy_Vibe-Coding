@@ -1,46 +1,11 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { ProjectDialog, type ProjectItem } from "@/app/components/project-dialog";
-
-const placeholderProjects: ProjectItem[] = [
-  {
-    id: 1,
-    title: "프로젝트 제목 1",
-    description:
-      "프로젝트에 대한 간단한 설명을 여기에 작성하세요. 사용 기술, 해결한 문제 등을 적을 수 있습니다.",
-    detailDescription:
-      "이 프로젝트는 React와 TypeScript, Tailwind를 사용해 구현했습니다.\n\n주요 기능과 해결한 문제, 학습한 내용 등을 여기에 자세히 적을 수 있습니다. 팝업에서만 보이는 상세 설명입니다.",
-    tags: ["React", "TypeScript", "Tailwind"],
-    image: "https://picsum.photos/seed/project1/600/320",
-    githubUrl: "https://github.com",
-    portfolioUrl: "https://vercel.com",
-  },
-  {
-    id: 2,
-    title: "프로젝트 제목 2",
-    description:
-      "두 번째 프로젝트 설명. GitHub, 배포 링크 등을 추가할 수 있습니다.",
-    detailDescription:
-      "Next.js와 Node.js로 만든 풀스택 예제입니다. 상세 설명을 이렇게 여러 줄로 작성할 수 있어요.",
-    tags: ["Next.js", "Node.js"],
-    image: "https://picsum.photos/seed/project2/600/320",
-    githubUrl: "https://github.com",
-    portfolioUrl: "https://github.com",
-  },
-  {
-    id: 3,
-    title: "프로젝트 제목 3",
-    description:
-      "세 번째 프로젝트 설명. 포트폴리오에 맞게 자유롭게 수정하세요.",
-    detailDescription:
-      "Python FastAPI 백엔드 프로젝트입니다. API 설계, 인증, DB 연동 등 경험을 적어보세요.",
-    tags: ["Python", "FastAPI"],
-    image: "https://picsum.photos/seed/project3/600/320",
-    githubUrl: "https://github.com",
-  },
-];
+import { ProjectDialog } from "@/app/components/project-dialog";
+import { ApiLabSection } from "@/app/components/api-lab-section";
+import { developerProfile, projects } from "@/lib/portfolio-data";
 
 export default function Home() {
+  const { name, shortBio, bio, contact } = developerProfile;
   return (
     <>
       {/* Hero */}
@@ -64,11 +29,10 @@ export default function Home() {
             개발자 포트폴리오
           </p>
           <h1 className="mb-4 max-w-2xl text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-            안녕하세요, 김브래 입니다
+            안녕하세요, {name} 입니다
           </h1>
           <p className="max-w-xl text-lg leading-relaxed text-muted-foreground">
-            웹/앱 개발 결과물을 소개하는 공간입니다. 관심 있는 프로젝트를 아래에서
-            확인해 보세요.
+            {shortBio}
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-4">
             <Button size="lg" asChild>
@@ -93,7 +57,7 @@ export default function Home() {
           <h2 className="mb-10 text-2xl font-bold text-foreground sm:text-3xl">
             프로젝트
           </h2>
-          <ProjectDialog projects={placeholderProjects} />
+          <ProjectDialog projects={projects} />
         </div>
       </section>
 
@@ -117,18 +81,18 @@ export default function Home() {
               />
             </div>
             <div className="space-y-4 text-muted-foreground">
-              <p className="leading-relaxed">
-                여기에 자신의 소개, 관심 분야, 사용하는 기술 스택, 경력 등을
-                자유롭게 작성하세요. 여러 문단으로 나누어도 됩니다.
-              </p>
-              <p className="leading-relaxed">
-                예: 프론트엔드/백엔드/풀스택 개발에 관심이 있고, 사용자 경험과 코드
-                품질을 중요하게 생각합니다.
-              </p>
+              {bio.map((paragraph, i) => (
+                <p key={i} className="leading-relaxed">
+                  {paragraph}
+                </p>
+              ))}
             </div>
           </div>
         </div>
       </section>
+
+      {/* API 실습 */}
+      <ApiLabSection />
 
       {/* Contact */}
       <section
@@ -147,26 +111,30 @@ export default function Home() {
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Button size="lg" asChild>
-              <a href="mailto:your@email.com">이메일 보내기</a>
+              <a href={`mailto:${contact.email}`}>이메일 보내기</a>
             </Button>
-            <Button variant="outline" size="lg" asChild>
-              <a
-                href="https://github.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                GitHub
-              </a>
-            </Button>
-            <Button variant="outline" size="lg" asChild>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                LinkedIn
-              </a>
-            </Button>
+            {contact.github && (
+              <Button variant="outline" size="lg" asChild>
+                <a
+                  href={contact.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  GitHub
+                </a>
+              </Button>
+            )}
+            {contact.linkedin && (
+              <Button variant="outline" size="lg" asChild>
+                <a
+                  href={contact.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  LinkedIn
+                </a>
+              </Button>
+            )}
           </div>
         </div>
       </section>

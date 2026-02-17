@@ -18,17 +18,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import type { ProjectItem } from "@/lib/portfolio-data";
 
-export type ProjectItem = {
-  id: number;
-  title: string;
-  description: string;
-  detailDescription?: string;
-  tags: string[];
-  image: string;
-  githubUrl?: string;
-  portfolioUrl?: string;
-};
+export type { ProjectItem };
 
 type ProjectDialogProps = {
   projects: ProjectItem[];
