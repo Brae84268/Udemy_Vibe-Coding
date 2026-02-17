@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 
 type RouteParams = { params: Promise<{ id: string }> };
 
@@ -28,6 +28,7 @@ export async function DELETE(
     );
   }
 
+  const supabase = getSupabase();
   if (!supabase) {
     return NextResponse.json({ error: "Database not configured" }, { status: 503 });
   }

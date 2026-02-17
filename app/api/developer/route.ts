@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 
 /**
  * GET /api/developer
  * 개발자 소개 + 포트폴리오 - Supabase developer_profiles, projects 테이블
  */
 export async function GET() {
+  const supabase = getSupabase();
   if (!supabase) {
     return NextResponse.json(
       { error: "Database not configured" },

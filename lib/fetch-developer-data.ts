@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 import type { DeveloperProfile, ProjectItem } from "@/lib/portfolio-data";
 import {
   developerProfile as fallbackProfile,
@@ -14,6 +14,7 @@ export type DeveloperData = {
  * Supabase에서 개발자 프로필 + 프로젝트 조회. 실패 시 기존 더미 데이터 반환.
  */
 export async function getDeveloperData(): Promise<DeveloperData> {
+  const supabase = getSupabase();
   if (!supabase) {
     return {
       developerProfile: fallbackProfile,

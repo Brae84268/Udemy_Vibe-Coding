@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 
 const VISITOR_ID_HEADER = "x-visitor-id";
 
@@ -8,6 +8,7 @@ const VISITOR_ID_HEADER = "x-visitor-id";
  * 현재 좋아요 수 + 이 방문자의 좋아요 여부 - Supabase likes 테이블
  */
 export async function GET(request: NextRequest) {
+  const supabase = getSupabase();
   if (!supabase) {
     return NextResponse.json({ count: 0, liked: false });
   }
@@ -42,6 +43,7 @@ export async function GET(request: NextRequest) {
  * 좋아요 토글 - Supabase likes 테이블
  */
 export async function POST(request: NextRequest) {
+  const supabase = getSupabase();
   if (!supabase) {
     return NextResponse.json({ error: "Database not configured" }, { status: 503 });
   }

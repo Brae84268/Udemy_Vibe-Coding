@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabase } from "@/lib/supabase";
 
 function mapEntry(row: { id: string; name: string; message: string; created_at: string }) {
   return {
@@ -15,6 +15,7 @@ function mapEntry(row: { id: string; name: string; message: string; created_at: 
  * 방명록 목록 조회 (최신순) - Supabase guestbook 테이블
  */
 export async function GET() {
+  const supabase = getSupabase();
   if (!supabase) {
     return NextResponse.json({ error: "Database not configured" }, { status: 503 });
   }
@@ -63,6 +64,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const supabase = getSupabase();
     if (!supabase) {
       return NextResponse.json({ error: "Database not configured" }, { status: 503 });
     }
